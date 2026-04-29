@@ -44,11 +44,7 @@ orig_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 results   = {}
 frame_nmr = -1
 
-# ---------------------------------------------------------------------------
-# FIX 1: Create a NAMED, NORMAL window before the loop
-# This is required for cv2.waitKey to reliably catch keypresses on most
-# systems. Without WINDOW_NORMAL, Q often gets missed.
-# ---------------------------------------------------------------------------
+
 cv2.namedWindow("License Plate Detection", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("License Plate Detection", DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
@@ -130,7 +126,7 @@ while True:
         license_plate_text, license_plate_text_score = read_license_plate(thresh)
 
         # -------------------------------------------------------------------
-        # FIX 2: Draw vehicle box regardless of OCR result
+        #  Draw vehicle box regardless of OCR result
         # Previously boxes were only drawn inside "if text is not None",
         # so nothing appeared when OCR failed
         # -------------------------------------------------------------------
@@ -186,12 +182,7 @@ while True:
     # -----------------------------------------------------------------------
     cv2.imshow("License Plate Detection", frame)
 
-    # -----------------------------------------------------------------------
-    # FIX 3: Use waitKey(25) instead of waitKey(1)
-    # waitKey(1) gives the OS only 1ms to register a keypress — too short
-    # on many systems. 25ms (~40fps) is reliable without slowing video much.
-    # Also handle Escape (27) as an alternative quit key.
-    # -----------------------------------------------------------------------
+   
     key = cv2.waitKey(2) & 0xFF
     if key in (ord('q'), ord('Q'), 27):
         print("Quit signal received.")
